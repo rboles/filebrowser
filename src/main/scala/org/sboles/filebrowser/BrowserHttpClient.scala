@@ -119,7 +119,7 @@ case class BrowserHttpClient(_baseUrl: String) {
    * Makes an HTTP GET request for a resource
    * @param path Path to resource
    * @param soTimeout Socket timeout in milliseconds
-   * @return A tuple containing: (Success?, Some browser response object, Some message)
+   * @return HTTP response status, body and request duration
    */
   def get(path: String, soTimeout: Int): BrowserClientResponse = {
 
@@ -150,13 +150,12 @@ case class BrowserHttpClient(_baseUrl: String) {
   }
 
   /**
-   * Makes an HTTP GET request for a resource, protected by basic auth. The
-   * request timeout defaults to the global socket timeout (socketTimeout)
+   * Makes an HTTP GET request for a resource, protected by auth.
    * @param path Path to resource
    * @param username User name
    * @param password User password
    * @param soTimeout Socket timeout in milliseconds
-   * @return A tuple containing: (Success?, Some browser response object, Some message)
+   * @return HTTP response status, body and request duration
    */
   def get(path: String, username: String, password: String, soTimeout: Int): BrowserClientResponse = {
 
