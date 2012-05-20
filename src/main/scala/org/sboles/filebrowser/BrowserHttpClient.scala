@@ -193,7 +193,7 @@ case class BrowserHttpClient(_baseUrl: String) {
    * Make a HTTP get request for a service. The request timeout
    * defaults to the global socket timeout (socketTimeout)
    * @param path URL path
-   * @return A tuple containing: (Success?, Some browser response object, Some message)
+   * @return HTTP response status, body and request duration
    */
   def get(path: String): BrowserClientResponse = {
     get(path, socketTimeout)
@@ -203,7 +203,7 @@ case class BrowserHttpClient(_baseUrl: String) {
    * Make a HTTP get request for a service, protected by basic auth. The
    * request timeout defaults to the global socket timeout (socketTimeout)
    * @param path URL path
-   * @return A tuple containing: (Success?, Some browser response object, Some message)
+   * @return HTTP response status, body and request duration
    */
   def get(path: String, username: String, password: String): BrowserClientResponse = {
     get(path, username, password, socketTimeout)
@@ -212,7 +212,7 @@ case class BrowserHttpClient(_baseUrl: String) {
   /**
    * Requests the resource identified by the instance of BrowserFile
    * @param browserFile Instance of BrowserFile
-   * @return A tuple containing: (Success?, Some browser response object, Some message)
+   * @return HTTP response status, body and request duration
    */
   def get(browserFile: BrowserFile): BrowserClientResponse = get(browserFile.path)
 
@@ -222,9 +222,12 @@ case class BrowserHttpClient(_baseUrl: String) {
    * @param browserFile Instance of BrowserFile
    * @param username User name
    * @param password User password
-   * @return A tuple containing: (Success?, Some browser response object, Some message)
+   * @return HTTP response status, body and request duration
    */
-  def get(browserFile: BrowserFile, username: String, password: String): BrowserClientResponse = get(browserFile.path, username, password)
+  def get(browserFile: BrowserFile,
+          username: String, password: String): BrowserClientResponse = {
+    get(browserFile.path, username, password)
+  }
 }
 
 object BrowserHttpClient {
