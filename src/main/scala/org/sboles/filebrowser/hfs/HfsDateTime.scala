@@ -30,10 +30,10 @@ package org.sboles.filebrowser {
        */
       def normalize(hfsDateTime: String): Date = {
 
-        val atoms = hfsDateTime.split(" ")
+        val atoms = hfsDateTime.split("\\s+")
 
         val date = {
-          val dt = atoms(0).split("/")
+          val dt = atoms(0).split('/')
           val mo = zeroPad(dt(0))
           val dy = zeroPad(dt(1))
           val yr = dt(2)
@@ -43,19 +43,16 @@ package org.sboles.filebrowser {
 
         val time = {
           if ( atoms.length > 1 ) {
-            val tm = atoms(1).split(":")
+            val tm = atoms(1).split(':')
             val mi = zeroPad(tm(1))
             val ss = zeroPad(tm(2))
             val am = atoms(2).toUpperCase
             
-            val hr = {
-              if ( am == "PM" ) {
-                zeroPad((tm(0).toInt + 12).toString)
-              } else {
-                zeroPad(tm(0))
-              }
+            val hr = am match {
+              case "PM" => zeroPad((tm(0).toInt + 12).toString)
+              case _ => zeroPad(tm(0))
             }
-
+            
             hr + mi + ss
           } else {
             "000000"
