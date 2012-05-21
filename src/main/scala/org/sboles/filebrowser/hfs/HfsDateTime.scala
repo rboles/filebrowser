@@ -15,7 +15,7 @@ package org.sboles.filebrowser {
 
       val _dateTime = HfsDateTime.normalize(hfsDateTime)
 
-      def dateTime: Date = _dateTime
+      override def dateTime: Date = _dateTime
 
       override def toString = _dateTime.toString
     }
