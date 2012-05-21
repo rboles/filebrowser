@@ -3,7 +3,6 @@ package org.sboles.filebrowser {
 
   package hfs {
 
-    import java.text.SimpleDateFormat
     import java.util.Date
 
     /**
@@ -23,19 +22,13 @@ package org.sboles.filebrowser {
 
     object HfsDateTime {
 
-      val dtFormat = new SimpleDateFormat("yyyyMMddHHmmss")
+      import BrowserDateTime.{dtFormat, zeroPad}
 
       /**
        * @param v HFS date-time value
        * @return New instance of Date
        */
       def normalize(hfsDateTime: String): Date = {
-
-        def zeroPad(v: String): String = v.length match {
-          case 0 => "00"
-          case 1 => "0" + v
-          case _ => v
-        }
 
         val atoms = hfsDateTime.split(" ")
 
