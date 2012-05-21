@@ -3,9 +3,6 @@ package org.sboles.filebrowser {
 
   package hfs {
 
-    import java.util.Date
-    import java.util.regex.{Pattern, Matcher}
-
     import org.apache.log4j.Logger
 
     /**
