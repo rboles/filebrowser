@@ -3,9 +3,9 @@ package org.sboles.filebrowser {
 
   package hfs {
 
-    import java.util.regex._
-    import java.io.{BufferedReader, StringReader}
+    import java.util.regex.Pattern
     import scala.collection.mutable.Queue
+    import scala.io.Source
 
     /**
      * Parses the content of an HFS page
@@ -32,15 +32,11 @@ package org.sboles.filebrowser {
       def parse(page: String): List[HfsFile] = {
         val files = new Queue[HfsFile]
         
-        val reader = new BufferedReader(new StringReader(page))
-        
-        var line = reader.readLine
-        var path = ""
-        
         // 0: nothing; 1: found path
         var readState = 0
+        var path = ""
         
-        while ( line != null ) {
+        Source.fromString(page).getLines.foreach(line => {
           readState match {
             case 0 => {
               val m = PATH_PATTERN.matcher(line)
@@ -75,15 +71,12 @@ package org.sboles.filebrowser {
                   }
                 }
 
-                val hfsFile = new HfsFile(name, filePath, fileSize, time, folder, hits)
-
-                if ( hfsFile.name.length > 0 ) files += hfsFile
+                if ( name.length > 0 )
+                  files += HfsFile(name, filePath, fileSize, time, folder, hits)
               }
             }
           }
-
-          line = reader.readLine
-        }
+        })
         
         files.toList
       }
