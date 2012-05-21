@@ -36,7 +36,6 @@ package org.sboles.filebrowser {
         
         var line = reader.readLine
         var path = ""
-        var foundPath = false
         
         // 0: nothing; 1: found path
         var readState = 0
