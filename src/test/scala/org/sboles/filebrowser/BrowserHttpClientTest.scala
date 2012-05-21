@@ -13,7 +13,10 @@ import org.apache.log4j.Logger
  * @author sboles
  */
 object BrowserHttpClientTest {
+
   val HFS_BASE_URL = "http://localhost:80"
+
+  val PATH = "/HFS/cache"
 
   val logger = Logger.getLogger(classOf[BrowserHttpClientTest])
 
@@ -68,12 +71,8 @@ class BrowserHttpClientTest extends TestCase("BrowserHttpClient") {
   def testHfsGet: Unit = {
     logger.info("Testing HTTP client with HFS GET request")
 
-    val path = "/HFS/cache/"
-
     val client: BrowserHttpClient = new BrowserHttpClient(HFS_BASE_URL)
 
-    val clientResp = client.get(path)
-
-    checkResponse(client.get(path))
+    checkResponse(client.get(PATH))
   }
 }

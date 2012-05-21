@@ -18,6 +18,8 @@ package org.sboles.filebrowser {
     object HfsBrowserTest {
       val HFS_BASE_URL = "http://localhost:80"
 
+      val PATH = "/HFS/cache"
+
       val logger = Logger.getLogger(classOf[HfsBrowserTest])
 
       def suite: Test = {
@@ -39,13 +41,11 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/"
-
-        val files = browser.index(path)
+        val files = browser.index(PATH)
 
         files.length match {
           case 0 => {
-            logger.error("Expected page at: " + path + " to have content")
+            logger.error("Expected page at: " + PATH + " to have content")
             assertTrue(false)
           }
           case _ => files.foreach(f => {logger.info(f.name)})
@@ -57,11 +57,11 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/data/test.ics"
+        val path = PATH + "/8077.xml"
 
-        browser.file(path) match {
+        browser.file(PATH) match {
           case Some(f) => {
-            logger.info("Success, got file at " + path)
+            logger.info("Success, got file at " + PATH)
             logger.debug(f)
           }
           case None => {
@@ -76,13 +76,13 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/"
+        val files = browser.files(PATH)
 
-        val files = browser.files(path)
-
-        if ( files.length > 0 ) {
-          logger.error("Did not expect to find files at: " + path)
+        if ( files.length == 0 ) {
+          logger.error("Expected to find files at: " + PATH)
           assertTrue(false)
+        } else {
+          logger.info("Found " + files.length + " files at " + PATH)
         }
       }
 
@@ -91,18 +91,17 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/data"
-        val filter = ".ics"
+        val filter = ".xml"
         val pattern = Pattern.compile(filter)
 
-        val files = browser.files(path, pattern)
+        val files = browser.files(PATH, pattern)
 
         if ( files.length > 0 ) {
           logger.info("Found " + files.length + " matching: " + filter)
           files.foreach(f => logger.info("- " + f.name))
         } else {
           logger.error("Expected to find files matching: " +
-                       filter + ", at " + path)
+                       filter + ", at " + PATH)
           assertTrue(false)
         }
       }
@@ -112,14 +111,12 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/"
-
-        val files = browser.folders(path)
+        val files = browser.folders(PATH)
 
         if ( files.length > 0 ) {
           logger.info("Found " + files.length + " folders")
         } else {
-          logger.error("Expected to find folders at: " + path)
+          logger.error("Expected to find folders at: " + PATH)
           assertTrue(false)
         }
       }
@@ -129,11 +126,9 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/data"
-
         val cal = new GregorianCalendar(2012,6,1,0,0,0)
 
-        val files = browser.filesBefore(path, cal.getTime)
+        val files = browser.filesBefore(PATH, cal.getTime)
 
         if ( files.length == 0 ) {
           logger.error("Execpted to find files modified before " + cal.getTime)
@@ -149,11 +144,9 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/data"
+        val cal = new GregorianCalendar(2010,4,1,0,0,0)
 
-        val cal = new GregorianCalendar(2012,4,1,0,0,0)
-
-        val files = browser.filesAfter(path, cal.getTime)
+        val files = browser.filesAfter(PATH, cal.getTime)
 
         if ( files.length == 0 ) {
           logger.error("Execpted to find files modified after " + cal.getTime)
@@ -169,12 +162,10 @@ package org.sboles.filebrowser {
 
         val browser = new HfsBrowser(HFS_BASE_URL)
 
-        val path = "/HFS/cache/data"
-
-        val startDt = new GregorianCalendar(2012,4,1,0,0,0)
+        val startDt = new GregorianCalendar(2010,4,1,0,0,0)
         val endDt = new GregorianCalendar(2012,6,1,0,0,0)
 
-        val files = browser.filesBetween(path, startDt.getTime, endDt.getTime)
+        val files = browser.filesBetween(PATH, startDt.getTime, endDt.getTime)
 
         if ( files.length == 0 ) {
           logger.error("Execpted to find files modified between " +
