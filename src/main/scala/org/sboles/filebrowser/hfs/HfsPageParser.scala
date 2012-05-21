@@ -68,8 +68,8 @@ package org.sboles.filebrowser {
                   case _ => {
                     val l = size.split(' ')
                     l(1) match {
-                      case "K" => l(0).toInt * 1024
-                      case "M" => l(0).toInt * 1048576
+                      case "KB" => (l(0).toDouble * 1024).toLong
+                      case "MB" => (l(0).toDouble * 1048576).toLong
                       case _ => l(0).toLong
                     }
                   }
