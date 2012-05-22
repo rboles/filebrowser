@@ -22,10 +22,11 @@ trait FileBrowser {
 
   /**
    * Parse an index page into a list of files and folders
+   * @param path Path to index page
    * @param index Index page content
    * @return List of files and folders
    */
-  def parseIndex(index: String): List[BrowserFile]
+  def parseIndex(path: String, index: String): List[BrowserFile]
 
   /**
    * Get a file index
@@ -33,7 +34,7 @@ trait FileBrowser {
    * @return List of files and folders
    */
   def index(path: String): List[BrowserFile] = getResource(client, path) match {
-    case Some(index) => parseIndex(index)
+    case Some(index) => parseIndex(path, index)
     case None => Nil
   }
 

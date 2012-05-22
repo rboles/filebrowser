@@ -22,7 +22,8 @@ package org.sboles.filebrowser {
 
       override def client = _client
 
-      override def parseIndex(index: String) = HfsPageParser.parse(index)
+      override def parseIndex(path: String, index: String) =
+        HfsPageParser.parse(path, index)
     }
 
     object HfsBrowser {
